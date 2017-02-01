@@ -65,42 +65,206 @@ public class Robot extends IterativeRobot
 	 * switch structure below with additional strings. If using the
 	 * SendableChooser make sure to add them to the chooser code above as well.
 	 */
-	@Override
-	public void autonomousInit() {
-		autoSelected = chooser.getSelected();
+	//@Override
+	//public void autonomousInit() {
+		//autoSelected = chooser.getSelected();
 		// autoSelected = SmartDashboard.getString("Auto Selector",
 		// defaultAuto);
-		System.out.println("Auto selected: " + autoSelected);
-	}
+		//System.out.println("Auto selected: " + autoSelected);
+	//}
 
 	/**
 	 * This function is called periodically during autonomous
 	 */
 	@Override
-	public void autonomousPeriodic() {
-		switch (autoSelected) {
-		case customAuto:
+	//public void autonomousPeriodic() {
+		//switch (autoSelected) {
+		//case customAuto:
 			// Put custom auto code here
-			break;
-		case defaultAuto:
-		default:
+			//break;
+		// defaultAuto:
+		//default:
 			// Put default auto code here
-			break;
-		}
-	}
+			//break;
+		//}
+	//}
 
 	/**
 	 * This function is called periodically during operator control
 	 */
-	@Override
-	public void teleopPeriodic() {
-	}
+	//@Override
+	public void teleopPeriodic() 
+	{
+			Scheduler.getInstance().run();
+			AButton = xbox.getRawButton(1);
+			BButton = xbox.getRawButton(2);
+			XButton = xbox.getRawButton(3);
+			YButton = xbox.getRawButton(4);
+			rightBumper = xbox.getRawButton(5);
+			leftBumper = xbox.getRawButton(6);
+			stopButton = xbox.getRawButton(7);
+			startButton = xbox.getRawButton(8);
+
+			axisXLeft = xbox.getRawAxis(0);
+			axisYLeft = xbox.getRawAxis(1);
+			leftTrigger = xbox.getRawAxis(2);
+			rightTrigger = xbox.getRawAxis(3);
+			axisXRight = xbox.getRawAxis(4);
+			axisYRight = xbox.getRawAxis(5);
+			talon.enableDeadbandElimination(true);
+			talon.set(0);
+			
+			robut.tankDrive(-axisYLeft, -axisYRight, true);
+
+			if (leftTrigger == 1) {
+				robut.drive(.7, axisXLeft - axisYLeft);
+			} else if (rightTrigger == 1) {
+				robut.drive(-.7, axisXLeft - axisYLeft);
+			} else {
+				robut.stopMotor();
+			}
+			if (AButton == true) {
+				talon.set(.8);
+			} else if (BButton == true) {
+				talon.set(-.2);
+			} else {
+				talon.set(0);
+			}
+
+			if (startButton == true) {
+				station.release();
+			}
+		}
 
 	/**
 	 * This function is called periodically during test mode
 	 */
 	@Override
-	public void testPeriodic() {
+	public void testPeriodic() 
+	{
+		LiveWindow.run();
 	}
+	
+	public RobotDrive getRobut()
+	{
+		return robut;
+	}
+	
+	public void setRobit(RobotDrive robut) {
+		this.robut = robut;
+	}
+
+	public Joystick getXbox() {
+		return xbox;
+	}
+
+	public void setXbox(Joystick xbox) {
+		this.xbox = xbox;
+	}
+
+	public boolean isAButton() {
+		return AButton;
+	}
+
+	public void setAButton(boolean aButton) {
+		AButton = aButton;
+	}
+
+	public boolean isBButton() {
+		return BButton;
+	}
+
+	public void setBButton(boolean bButton) {
+		BButton = bButton;
+	}
+
+	public boolean isXButton() {
+		return XButton;
+	}
+
+	public void setXButton(boolean xButton) {
+		XButton = xButton;
+	}
+
+	public boolean isYButton() {
+		return YButton;
+	}
+
+	public void setYButton(boolean yButton) {
+		YButton = yButton;
+	}
+
+	public boolean isrightBumper() {
+		return rightBumper;
+	}
+
+	public void setrightBumper(boolean rightBumper) {
+		this.rightBumper = rightBumper;
+	}
+
+	public boolean isleftBumper() {
+		return leftBumper;
+	}
+
+	public void setleftBumper(boolean leftBumper) {
+		this.leftBumper = leftBumper;
+	}
+
+	public double getAxisXleft() {
+		return axisXLeft;
+	}
+
+	public void setAxisXleft(double axisXleft) {
+		this.axisXLeft = axisXleft;
+	}
+
+	public double getAxisYleft() {
+		return axisYLeft;
+	}
+
+	public void setAxisYleft(double axisYleft) {
+		this.axisYLeft = axisYleft;
+	}
+
+	public double getAxisXright() {
+		return axisXRight;
+	}
+
+	public void setAxisXright(double axisXright) {
+		this.axisXRight = axisXright;
+	}
+
+	public double getAxisYright() {
+		return axisYRight;
+	}
+
+	public void setAxisYright(double axisYright) {
+		this.axisYRight = axisYright;
+	}
+
+	public double getleftTrigger() {
+		return leftTrigger;
+	}
+
+	public void setleftTrigger(double leftTrigger) {
+		this.leftTrigger = leftTrigger;
+	}
+
+	public double getrightTrigger() {
+		return rightTrigger;
+	}
+
+	public void setrightTrigger(double rightTrigger) {
+		this.rightTrigger = rightTrigger;
+	}
+
+	public boolean isStopButton() {
+		return stopButton;
+	}
+
+	public void setStopButton(boolean stopButton) {
+		this.stopButton = stopButton;
+	}
+
 }
 
